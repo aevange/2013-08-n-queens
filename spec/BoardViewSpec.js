@@ -6,6 +6,6 @@ describe("ChessboardView", function() {
   });
 
   it("should exist", function() {
-    expect(view).toBeTruthy();
+    expect(view).to.be.ok;
   });
 });

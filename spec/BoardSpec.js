@@ -9,7 +9,7 @@ describe("Board", function() {
     _.map('row col rooks majorDiagonal minorDiagonal queens'.split(' '), function(conflictType){
       var conflictDetected = board['hasAny' + capitalize(conflictType) + 'Conflicts']();
       var conflictExpected = _(expectedConflicts).contains(conflictType);
-      expect(conflictDetected).toEqual(conflictExpected);
+      expect(conflictDetected).to.be.equal(conflictExpected);
     });
   };
 

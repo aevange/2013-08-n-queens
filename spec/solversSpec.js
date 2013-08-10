@@ -6,7 +6,7 @@ describe("solvers", function() {
     it('finds a valid solution for n of 0-8', function(){
       _.range(1, 8).map(function(n){
         var solutionBoard = new Board(findNRooksSolution(n));
-        expect(solutionBoard.hasAnyRooksConflicts()).toEqual(false);
+        expect(solutionBoard.hasAnyRooksConflicts()).to.be.equal(false);
       });
     });
 
@@ -18,7 +18,7 @@ describe("solvers", function() {
       _.range(0, 8).map(function(n){
         var solutionCount = countNRooksSolutions(n);
         var expectedSolutionCount = [1, 1, 2, 6, 24, 120, 720, 5040][n];
-        expect(solutionCount).toEqual(expectedSolutionCount);
+        expect(solutionCount).to.be.equal(expectedSolutionCount);
       });
     });
 
@@ -29,7 +29,7 @@ describe("solvers", function() {
     it('finds a valid solution for n of 0-8', function(){
       _.range(1, 8).map(function(n){
         var solutionBoard = new Board(findNQueensSolution(n));
-        expect(solutionBoard.hasAnyQueensConflicts()).toEqual(false);
+        expect(solutionBoard.hasAnyQueensConflicts()).to.be.equal(false);
       });
     });
 
@@ -41,7 +41,7 @@ describe("solvers", function() {
       _.range(0, 8).map(function(n){
         var solutionCount = countNQueensSolutions(n);
         var expectedSolutionCount = [1, 1, 0, 0, 2, 10, 4, 40, 92][n];
-        expect(solutionCount).toEqual(expectedSolutionCount);
+        expect(solutionCount).to.be.equal(expectedSolutionCount);
       });
     });
 
