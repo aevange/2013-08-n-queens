@@ -73,7 +73,15 @@
     },
 
     hasColConflictAt: function(colIndex){
-      return false; // fixme
+      var result = false;
+      var board = this._currentAttributes;
+      var ones = 0;
+
+      for(var j = 0; j < board.n; j++) {
+        board[j][colIndex] && ones++;
+      }
+      ones > 1 && (result = true);
+      return result;
     },
 
     hasAnyColConflicts: function(){
