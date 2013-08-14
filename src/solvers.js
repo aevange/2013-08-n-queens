@@ -30,6 +30,18 @@ window.countNQueensSolutions = function(n){
   return solutionCount;
 };
 
+var makeBoard = function(n){
+  var board =[];
+  for (var i = 0; i < n; i++){
+    var row =[];
+    for (var j = 0; j < n; j++){
+      row.push(0);
+    }
+    board.push(row);
+  }
+  return board;
+};
+
 
 // This function uses a board visualizer lets you view an interactive version of any piece matrix.
 
