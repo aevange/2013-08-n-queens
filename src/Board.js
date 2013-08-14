@@ -90,7 +90,13 @@
     },
 
     hasAnyColConflicts: function(){
-      return false; // fixme
+      var result = false;
+      var n = this._currentAttributes.n;
+
+      for (var j = 0; j < n; j++) {
+        result = result || this.hasColConflictAt(j);
+      }
+      return result; // fixme
     },
 
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow){
