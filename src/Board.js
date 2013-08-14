@@ -96,14 +96,23 @@
       for (var j = 0; j < n; j++) {
         result = result || this.hasColConflictAt(j);
       }
-      return result; // fixme
+      return result;
     },
 
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow){
-      return false; // fixme
+      var argI = majorDiagonalColumnIndexAtFirstRow;
+      var result = false;
+      var thisBoard = this._currentAttributes;
+      var ones = 0;
+      for(var row = 0; row < thisBoard.n; row++){
+        (argI + row) >=0 && (argI + row) < thisBoard.n && thisBoard[row][argI + row] && ones++;
+      }
+      ones > 1 && (result = true);
+      return result;
     },
 
     hasAnyMajorDiagonalConflicts: function(){
+      //for loop from 1-n to n-1
       return false; // fixme
     },
 
