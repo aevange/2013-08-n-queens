@@ -105,23 +105,36 @@
       var thisBoard = this._currentAttributes;
       var ones = 0;
       for(var row = 0; row < thisBoard.n; row++){
-        (argI + row) >=0 && (argI + row) < thisBoard.n && thisBoard[row][argI + row] && ones++;
+        !!thisBoard[row][argI + row] && ones++;
       }
       ones > 1 && (result = true);
       return result;
     },
 
     hasAnyMajorDiagonalConflicts: function(){
-      //for loop from 1-n to n-1
-      return false; // fixme
+      var result = false;
+      var n = this._currentAttributes.n;
+      for(var i = 1-n; i < n; i++){
+        result = result || this.hasMajorDiagonalConflictAt(i);
+      }
+      return result;
     },
 
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow){
-      return false; // fixme
+      var argJ = minorDiagonalColumnIndexAtFirstRow;
+      var result = false;
+      var thisBoard = this._currentAttributes;
+      var ones = 0;
+      for(var row = 0; row < thisBoard.n; row++){
+        var thisCol = argJ - row;
+        !!thisBoard[row][thisCol] && ones++; 
+      }
+      ones > 1 && (result = true);
+      return result; 
     },
 
     hasAnyMinorDiagonalConflicts: function(){
-      return false; // fixme
+      return this.hasMinorDiagonalConflictAt(-1); // fixme
     }
 
   });
