@@ -69,7 +69,12 @@
     },
 
     hasAnyRowConflicts: function(){
-      return false; // fixme
+      var result = false;
+      var n = this._currentAttributes.n;
+      for(var i = 0; i < n; i++){
+        result = result || this.hasRowConflictAt(i);
+      }
+      return result;
     },
 
     hasColConflictAt: function(colIndex){
