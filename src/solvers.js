@@ -3,8 +3,7 @@
 // (There are also optimizations that will allow you to skip a lot of the dead search space)
 
 window.findNRooksSolution = function(n){
-  var solution = undefined; //fixme
-
+  var solution = createMatrix(n);
   console.log('Single solution for ' + n + ' rooks:', solution);
   return solution;
 };
@@ -30,18 +29,6 @@ window.countNQueensSolutions = function(n){
   return solutionCount;
 };
 
-var makeBoard = function(n){
-  var board =[];
-  for (var i = 0; i < n; i++){
-    var row =[];
-    for (var j = 0; j < n; j++){
-      row.push(0);
-    }
-    board.push(row);
-  }
-  return board;
-};
-
 
 // This function uses a board visualizer lets you view an interactive version of any piece matrix.
 
@@ -51,4 +38,22 @@ window.displayBoard = function(matrix){
       model: new Board(matrix)
     }).render()
   );
+};
+
+//our functions
+var makeRow = function(n){
+  return _(_.range(n)).map(function(){
+    return 0;
+  });
+};
+
+var createMatrix = function(n){
+  var matrix = {};
+  for(var i = 0; i < n; i++){
+    var emptyRow = makeRow(n);
+    matrix[i] = {};
+    emptyRow[i] = 1;
+    matrix[i] = emptyRow;
+  }
+  return matrix;
 };
