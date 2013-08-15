@@ -62,43 +62,8 @@ window.findNQueensSolution = function(n){
 };
 
 window.countNQueensSolutions = function(n){
-  var solutions = {};
-  var insertRow = function(hashOfRows){
-    if(hashOfRows === undefined){
-      hashOfRows = {};
-    }
-    for (var i =0; i < n; i++) {
-      var currentRow = 0;
-      var newHashOfRows = {};
-      for (var key in hashOfRows) {
-        newHashOfRows[key] = hashOfRows[key];
-        currentRow++;
-      }
-      newHashOfRows[i] = currentRow;
-      var newRowsCount = 0;
-      for(var key in newHashOfRows) {
-        newRowsCount++;
-      }
-      //checks if passing "Rook tests"
-      if (++currentRow === newRowsCount) {
-        if(currentRow === n) {
-          if(!DiagonalConflicts(newHashOfRows,n)){
-            solutions[decodeHashToMatrix(newHashOfRows,n)] = true;
-          }
-        } else {
-          insertRow(newHashOfRows);  
-        }
-      }
-    }
-  };
-
-  insertRow();
-
-  var solutionCount = 0;
-  for (var i in solutions){
-    solutionCount++;
-  }
-  (n === 0 || n === 1) && (solutionCount = 1);
+  var solutions = queensSolutions(n);
+  var solutionCount = countNQSols(solutions, n);
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;
 };
@@ -172,3 +137,48 @@ var DiagonalConflicts = function(hash, n){
   }
   return result;
 };
+
+var queensSolutions = function(n){
+
+  var solutions = {};
+  var insertRow = function(hashOfRows){
+    if(hashOfRows === undefined){
+      hashOfRows = {};
+    }
+    for (var i =0; i < n; i++) {
+      var currentRow = 0;
+      var newHashOfRows = {};
+      for (var key in hashOfRows) {
+        newHashOfRows[key] = hashOfRows[key];
+        currentRow++;
+      }
+      newHashOfRows[i] = currentRow;
+      var newRowsCount = 0;
+      for(var key in newHashOfRows) {
+        newRowsCount++;
+      }
+      //checks if passing "Rook tests"
+      if (++currentRow === newRowsCount) {
+        if(currentRow === n) {
+          if(!DiagonalConflicts(newHashOfRows,n)){
+            solutions[decodeHashToMatrix(newHashOfRows,n)] = true;
+          }
+        } else {
+          insertRow(newHashOfRows);  
+        }
+      }
+    }
+  };
+
+  insertRow();
+  return solutions;
+};
+
+var countNQSols = function (sols, n) {
+  var solutionCount = 0;
+  for (var i in sols){
+    solutionCount++;
+  }
+  (n === 0 || n === 1) && (solutionCount = 1);
+  return solutionCount;
+}
