@@ -31,6 +31,7 @@ window.countNRooksSolutions = function(n){
       for(var key in newHashOfRows) {
         newRowsCount++;
       }
+      //checks if passing "Rook tests"
       if (++currentRow === newRowsCount) {
         if(currentRow === n) {
           solutions[decodeHashToMatrix(newHashOfRows,n)] = true;
@@ -61,8 +62,43 @@ window.findNQueensSolution = function(n){
 };
 
 window.countNQueensSolutions = function(n){
-  var solutionCount = undefined; //fixme
+  var solutions = {};
+  var insertRow = function(hashOfRows){
+    if(hashOfRows === undefined){
+      hashOfRows = {};
+    }
+    for (var i =0; i < n; i++) {
+      var currentRow = 0;
+      var newHashOfRows = {};
+      for (var key in hashOfRows) {
+        newHashOfRows[key] = hashOfRows[key];
+        currentRow++;
+      }
+      newHashOfRows[i] = currentRow;
+      var newRowsCount = 0;
+      for(var key in newHashOfRows) {
+        newRowsCount++;
+      }
+      //checks if passing "Rook tests"
+      if (++currentRow === newRowsCount) {
+        if(currentRow === n) {
+          if(!DiagonalConflicts(newHashOfRows,n)){
+            solutions[decodeHashToMatrix(newHashOfRows,n)] = true;
+          }
+        } else {
+          insertRow(newHashOfRows);  
+        }
+      }
+    }
+  };
 
+  insertRow();
+
+  var solutionCount = 0;
+  for (var i in solutions){
+    solutionCount++;
+  }
+  (n === 0 || n === 1) && (solutionCount = 1);
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;
 };
@@ -123,4 +159,16 @@ var decodeHashToMatrix = function(hash, n) {
     matrix[hash[i]] = rowToInsert;
   }
   return matrix;
+};
+
+var DiagonalConflicts = function(hash, n){
+  var result = false;
+  for (var i = 0; i < n; i++){
+    for (var j = 0; j < n; j++){
+      if(i !== j){
+      result = result || (i - j === hash[i] - hash[j]) || (i - j === hash[j] - hash[i]);
+      }
+    }
+  }
+  return result;
 };
