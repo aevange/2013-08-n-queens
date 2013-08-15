@@ -26,14 +26,9 @@ window.countNRooksSolutions = function(n){
         newHashOfRows[key] = hashOfRows[key];
         currentRow++;
       }
-      newHashOfRows[i] = currentRow;
-      var newRowsCount = 0;
-      for(var key in newHashOfRows) {
-        newRowsCount++;
-      }
-      //checks if passing "Rook tests"
-      if (++currentRow === newRowsCount) {
-        if(currentRow === n) {
+      if(newHashOfRows[i] === undefined){
+        newHashOfRows[i] = currentRow;
+        if(++currentRow === n) {
           solutions[decodeHashToMatrix(newHashOfRows,n)] = true;
         } else {
           insertRow(newHashOfRows);  
