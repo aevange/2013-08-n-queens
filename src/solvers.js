@@ -9,8 +9,26 @@ window.findNRooksSolution = function(n){
 };
 
 window.countNRooksSolutions = function(n){
-  var solutionCount = undefined; //fixme
-
+  //create hashTable of solutions
+  //createMatrix(n);
+  //nested for loop: swap "row" i with "row" j
+  //enter swapped matrix into hashtable
+  //for in loop to get count.
+  var solutions = {};
+  var matrix = matrixArray(n);
+  for (var i = 0; i < n; i++){
+    for (var j = 0; j < n; j++){
+      var temp = matrix[i];
+      matrix[i] = matrix[j];
+      matrix[j] = temp;
+      solutions[matrix] = true;
+    }
+  }
+  var solutionCount = 0; //fixme
+  for (var key in solutions){
+    solutionCount++;
+  }
+  n===0 && (solutionCount = 1);
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
 };
@@ -47,6 +65,12 @@ var makeRow = function(n){
   });
 };
 
+//As no two Rooks or Queen can occupy a singe row or column
+//permutations of n rows each with a piece placed in
+//different colums will be sufficinet to solve for 
+//row and column conflicts.
+//The returned matrix keys correspond to a unique array that
+//indicates the position of the piece.
 var createMatrix = function(n){
   var matrix = {};
   for(var i = 0; i < n; i++){
@@ -56,4 +80,14 @@ var createMatrix = function(n){
     matrix[i] = emptyRow;
   }
   return matrix;
+};
+
+//An array of n lenght that corresponds to the positions of the rows
+//in the matrix created above.
+var matrixArray = function(n){
+  var result =[];
+  for (var i = 0; i < n; i++){
+    result.push(i);
+  }
+  return result;
 };
