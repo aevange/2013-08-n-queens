@@ -134,9 +134,14 @@
     },
 
     hasAnyMinorDiagonalConflicts: function(){
-      return this.hasMinorDiagonalConflictAt(-1); // fixme
-    }
+      var result = false;
+      var n = this._currentAttributes.n;
 
+      for(var i = 1-n; i < n; i++) {
+        result = result || this.hasMinorDiagonalConflictAt(i);
+      }
+      return result;
+    }
   });
 
   var makeEmptyMatrix = function(n){
