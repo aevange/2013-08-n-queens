@@ -55,8 +55,10 @@ window.countNRooksSolutions = function(n){
 };
 
 window.findNQueensSolution = function(n){
-  var solution = undefined; //fixme
-
+  var solutions = queensSolutions(n);
+  var solution = {};
+  !!solutions[0] && (solution = decodeHashToMatrix(solutions[0]));
+  
   console.log('Single solution for ' + n + ' queens:', solution);
   return solution;
 };
@@ -171,6 +173,9 @@ var queensSolutions = function(n){
   };
 
   insertRow();
+  if (n === 1) {
+    solutions[0] = {0: 1};
+  }
   return solutions;
 };
 
