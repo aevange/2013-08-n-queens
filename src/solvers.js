@@ -15,20 +15,40 @@ window.countNRooksSolutions = function(n){
   //enter swapped matrix into hashtable
   //for in loop to get count.
   var solutions = {};
-  var matrix = matrixArray(n);
-  for (var i = 0; i < n; i++){
-    for (var j = 0; j < n; j++){
-      var temp = matrix[i];
-      matrix[i] = matrix[j];
-      matrix[j] = temp;
-      solutions[matrix] = true;
+  var insertRow = function(hashOfRows){
+    if(hashOfRows === undefined){
+      hashOfRows = {};
     }
-  }
-  var solutionCount = 0; //fixme
-  for (var key in solutions){
+    for (var i =0; i < n; i++) {
+      var currentRow = 0;
+      var newHashOfRows = {};
+      for (var key in hashOfRows) {
+        newHashOfRows[key] = hashOfRows[key];
+        currentRow++;
+      }
+      newHashOfRows[i] = currentRow;
+      var newRowsCount = 0;
+      for(var key in newHashOfRows) {
+        newRowsCount++;
+      }
+      if (++currentRow === newRowsCount) {
+        if(currentRow === n) {
+          solutions[decodeHashToMatrix(newHashOfRows,n)] = true;
+        } else {
+          insertRow(newHashOfRows);  
+        }
+      }
+    }
+  };
+
+  insertRow();
+
+  var solutionCount = 0;
+  for (var i in solutions){
     solutionCount++;
   }
-  n===0 && (solutionCount = 1);
+  (n === 0) && (solutionCount = 1);
+
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
 };
@@ -90,4 +110,17 @@ var matrixArray = function(n){
     result.push(i);
   }
   return result;
+};
+
+var decodeHashToMatrix = function(hash, n) {
+  var matrix = [];
+
+  for(var i = 0; i < n; i++) {
+    var rowToInsert = makeRow(n);
+
+    rowToInsert[i] = 1;
+
+    matrix[hash[i]] = rowToInsert;
+  }
+  return matrix;
 };
