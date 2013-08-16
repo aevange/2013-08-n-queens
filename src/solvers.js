@@ -158,9 +158,6 @@ var queensSolutions = function(n){
   };
 
   insertRow();
-  if (n === 1) {
-    solutions[0] = {0: 1};
-  }
   return solutions;
 };
 
