@@ -9,11 +9,6 @@ window.findNRooksSolution = function(n){
 };
 
 window.countNRooksSolutions = function(n){
-  //create hashTable of solutions
-  //createMatrix(n);
-  //nested for loop: swap "row" i with "row" j
-  //enter swapped matrix into hashtable
-  //for in loop to get count.
   var solutions = {};
   var insertRow = function(hashOfRows){
     if(hashOfRows === undefined){
