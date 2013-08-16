@@ -118,6 +118,20 @@ var decodeHashToMatrix = function(hash, n) {
   return matrix;
 };
 
+var decodeArrayToMatrix = function(array){
+  var j;
+  var matrix = [];
+  var n = array.length;
+  for (var i = 0; i < n; i ++){
+    var rowToInsert = makeRow(n);
+    j = array[i];
+    rowToInsert = makeRow(n);
+    rowToInsert[j] = 1;
+    matrix.push(rowToInsert);
+  }
+  return matrix;
+};
+
 var DiagonalConflicts = function(hash, n){
   var result = false;
   for (var i = 0; i < n; i++){
