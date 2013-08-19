@@ -18,15 +18,12 @@ window.countNRooksSolutions = function(n){
     if(board === undefined){
       board = [];
       col = 0;
-      //MJD = 0; //unnecessary for rook solution
-      //mid = 0; //unnecessary for rook solution
     }
 
     for (var i = n -1 ; i >= 0; i--){
       newBoard = board.slice(0)
       var candidate = Math.pow(2,i);
       var conflictResolution = col & candidate;
-      //to check for diagonal conflict, add on : | MJD & candidate | mid & cadidate;
       if(conflictResolution === 0){
         newBoard.push(i);
         var c = col | candidate;
@@ -38,7 +35,6 @@ window.countNRooksSolutions = function(n){
         } else {
           recursivlyBuildBoard(n, newBoard, c, MJD, mid);
         }
-
       }
     }
   };
@@ -51,12 +47,42 @@ window.countNRooksSolutions = function(n){
 };
 
 window.findNQueensSolution = function(n){
-  var solutions = queensSolutions(n);
-  var solution = {};
-  !!solutions[0] && (solution = decodeHashToMatrix(solutions[0]));
+  var solution;
+//BITWISE SOLUTION!!
+  var recursivlyBuildBoard = function(n, board, col, MJD, mid){
+    var newBoard;
+    if(board === undefined){
+      board = [];
+      col = 0;
+      MJD = 0;
+      mid = 0;
+    }
+
+    for (var i = n -1 ; i >= 0; i--){
+      newBoard = board.slice(0)
+      var candidate = Math.pow(2,i);
+      var conflictResolution = (col & candidate) | (MJD & candidate) | (mid & candidate);
+      if(conflictResolution === 0){
+        newBoard.push(i);
+        var c = col | candidate;
+        var MJ = (MJD | candidate)<<1;
+        var mi = (mid | candidate)>>1;
+        if (newBoard.length === n) {
+          solution = newBoard;
+          break;
+        } else {
+          recursivlyBuildBoard(n, newBoard, c, MJ, mi);
+        }
+      }
+    }
+  };
+  recursivlyBuildBoard(n);
+  var matrix = [[]];
+
+  !!solution && (matrix = decodeArrayToMatrix(solution));
   
-  console.log('Single solution for ' + n + ' queens:', solution);
-  return solution;
+  console.log('Single solution for ' + n + ' queens:', matrix);
+  return matrix;
 };
 
 window.countNQueensSolutions = function(n){
