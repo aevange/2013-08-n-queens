@@ -30,7 +30,6 @@ window.countNRooksSolutions = function(n){
       if(conflictResolution === 0){
         newBoard.push(i);
         var c = col | candidate;
-        debugger;
         if (newBoard.length === n) {
           if (hashOfSolutions[newBoard] !== true){
             arrayOfUniqueSolutions.push(newBoard);
@@ -61,8 +60,42 @@ window.findNQueensSolution = function(n){
 };
 
 window.countNQueensSolutions = function(n){
-  var solutions = queensSolutions(n);
-  var solutionCount = countNQSols(solutions, n);
+//BITWISE SOLUTION!!
+  var hashOfSolutions = {};
+  var arrayOfUniqueSolutions = [];
+  var recursivlyBuildBoard = function(n, board, col, MJD, mid){
+    var newBoard;
+    if(board === undefined){
+      board = [];
+      col = 0;
+      MJD = 0;
+      mid = 0;
+    }
+
+    for (var i = n -1 ; i >= 0; i--){
+      newBoard = board.slice(0)
+      var candidate = Math.pow(2,i);
+      var conflictResolution = (col & candidate) | (MJD & candidate) | (mid & candidate);
+      if(conflictResolution === 0){
+        newBoard.push(i);
+        var c = col | candidate;
+        var MJ = (MJD | candidate)<<1;
+        var mi = (mid | candidate)>>1;
+        if (newBoard.length === n) {
+          if (hashOfSolutions[newBoard] !== true){
+            arrayOfUniqueSolutions.push(newBoard);
+            hashOfSolutions[newBoard] = true;
+          }
+        } else {
+          recursivlyBuildBoard(n, newBoard, c, MJ, mi);
+        }
+
+      }
+    }
+  };
+  recursivlyBuildBoard(n);
+  var solutionCount = arrayOfUniqueSolutions.length;
+  (n === 0) && (solutionCount = 1);
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;
 };
