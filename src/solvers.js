@@ -9,35 +9,42 @@ window.findNRooksSolution = function(n){
 };
 
 window.countNRooksSolutions = function(n){
-  var solutions = {};
-  var insertRow = function(hashOfRows){
-    if(hashOfRows === undefined){
-      hashOfRows = {};
+  
+//BITWISE SOLUTION!!
+  var hashOfSolutions = {};
+  var arrayOfUniqueSolutions = [];
+  var recursivlyBuildBoard = function(n, board, col, MJD, mid){
+    var newBoard;
+    if(board === undefined){
+      board = [];
+      col = 0;
+      //MJD = 0; //unnecessary for rook solution
+      //mid = 0; //unnecessary for rook solution
     }
-    for (var i =0; i < n; i++) {
-      var currentRow = 0;
-      var newHashOfRows = {};
-      for (var key in hashOfRows) {
-        newHashOfRows[key] = hashOfRows[key];
-        currentRow++;
-      }
-      if(newHashOfRows[i] === undefined){
-        newHashOfRows[i] = currentRow;
-        if(++currentRow === n) {
-          solutions[decodeHashToMatrix(newHashOfRows,n)] = true;
+
+    for (var i = n -1 ; i >= 0; i--){
+      newBoard = board.slice(0)
+      var candidate = Math.pow(2,i);
+      var conflictResolution = col & candidate;
+      //to check for diagonal conflict, add on : | MJD & candidate | mid & cadidate;
+      if(conflictResolution === 0){
+        newBoard.push(i);
+        var c = col | candidate;
+        debugger;
+        if (newBoard.length === n) {
+          if (hashOfSolutions[newBoard] !== true){
+            arrayOfUniqueSolutions.push(newBoard);
+            hashOfSolutions[newBoard] = true;
+          }
         } else {
-          insertRow(newHashOfRows);  
+          recursivlyBuildBoard(n, newBoard, c, MJD, mid);
         }
+
       }
     }
   };
-
-  insertRow();
-
-  var solutionCount = 0;
-  for (var i in solutions){
-    solutionCount++;
-  }
+  recursivlyBuildBoard(n);
+  var solutionCount = arrayOfUniqueSolutions.length;
   (n === 0) && (solutionCount = 1);
 
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
@@ -116,6 +123,10 @@ var decodeHashToMatrix = function(hash, n) {
     matrix[hash[i]] = rowToInsert;
   }
   return matrix;
+};
+
+var allQueenSolutions = function(n){
+  //start here?
 };
 
 var decodeArrayToMatrix = function(array){
