@@ -54,9 +54,6 @@
       );
     },
 
-
-    // todo: fill in all these functions - they'll help you!
-
     hasRowConflictAt: function(rowIndex){
       var result = false;
       var row = this._currentAttributes[rowIndex];
